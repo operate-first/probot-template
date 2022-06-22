@@ -3,4 +3,4 @@ kind: ksops
 metadata:
   name: auth-generator
 files:
-- controller-secret.enc.yaml
+- secret.enc.yaml

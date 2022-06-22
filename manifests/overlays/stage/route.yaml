@@ -6,4 +6,4 @@ metadata:
   annotations:
     kubernetes.io/tls-acme: "true"
 spec:
-  host: peribolos-stage.operate-first.cloud
+  host: stage.host.example.com

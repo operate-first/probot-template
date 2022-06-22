@@ -15,16 +15,24 @@ const generateTaskPayload = (name: string, context: any) => ({
   apiVersion: 'tekton.dev/v1beta1',
   kind: 'TaskRun',
   metadata: {
-    generateName: name + '-',
+    // "{{name}}" to match the prefix in manifests/base/tasks/kustomization.yaml namePrefix
+    // (not necessary for functionality, just for consistency)
+    generateName: `{{name}}-${name}-`,
   },
   spec: {
     taskRef: {
-      name,
+      // "{{name}}" to match the prefix in manifests/base/tasks/kustomization.yaml namePrefix
+      // necessary for functionality
+      name: '{{name}}-' + name,
     },
     params: [
       {
         name: 'SECRET_NAME',
         value: getTokenSecretName(context),
+      },
+      {
+        name: 'CONTEXT',
+        value: JSON.stringify(context.payload),
       },
     ],
   },
@@ -99,84 +107,32 @@ export default (
   app.on('installation.created', async (context: any) => {
     numberOfInstallTotal.labels({}).inc();
 
-    // Iterate over the list of repositories for .github repo
-    const repo_exist = Boolean(
-      context.payload.repositories?.find((r: any) => r.name === '.github')
-    );
-
-    if (!repo_exist) {
-      app.log.info("Creating '.github' repository.");
-
-      context.octokit.repos
-        .createInOrg({
-          org: context.payload.installation.account.login,
-          name: '.github',
-        })
-        .catch((err: any) => {
-          app.log.warn(err, 'Error creating repository');
-        });
-    }
-
     // Create secret holding the access token
     wrapOperationWithMetrics(createTokenSecret(context), {
       install: context.payload.installation.id,
       method: 'createSecret',
     });
-
-    // Trigger dump-config taskrun
-    wrapOperationWithMetrics(
-      useApi(APIS.CustomObjectsApi).createNamespacedCustomObject(
-        'tekton.dev',
-        'v1beta1',
-        getNamespace(),
-        'taskruns',
-        generateTaskPayload('peribolos-dump-config', context)
-      ),
-      {
-        install: context.payload.installation.id,
-        method: 'scheduleDumpConfig',
-      }
-    );
   });
 
   app.on('push', async (context: any) => {
-    // Check if 'peribolos.yaml' was modified
-    const modified = Boolean(
-      context.payload.commits
-        ?.reduce(
-          (acc: any, commit: any) => [
-            ...acc,
-            ...commit.added,
-            ...commit.modified,
-            ...commit.removed,
-          ],
-          [] as string[]
-        )
-        .find((name: string) => name == 'peribolos.yaml')
-    );
-    if (!modified) {
-      app.log.info('No changes in peribolos.yaml, skipping peribolos run');
-      return;
-    }
-
     // Update token in case it expired
     wrapOperationWithMetrics(updateTokenSecret(context), {
       install: context.payload.installation.id,
       method: 'updateSecret',
     });
 
-    // Trigger taskrun to apply config changes to org
+    // Trigger example taskrun
     wrapOperationWithMetrics(
       useApi(APIS.CustomObjectsApi).createNamespacedCustomObject(
         'tekton.dev',
         'v1beta1',
         getNamespace(),
         'taskruns',
-        generateTaskPayload('peribolos-run', context)
+        generateTaskPayload('example', context)
       ),
       {
         install: context.payload.installation.id,
-        method: 'schedulePushTask',
+        method: 'scheduleExampleTaskRun',
       }
     );
   });

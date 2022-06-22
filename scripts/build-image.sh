@@ -13,11 +13,11 @@ if ! command -v s2i &> /dev/null; then
   exit 1
 fi
 # Creates temporary folder for the build
-tmp_dir=$(mktemp -d -t peribolos-XXXXXXXXXX)
+tmp_dir=$(mktemp -d -t probot-XXXXXXXXXX)
 
 s2i build . ${NODEJS_BASE_IMAGE} --as-dockerfile ${tmp_dir}/Containerfile
 cd $tmp_dir
-podman build -t peribolos-as-a-service .
+podman build -t probot .
 
 # Cleaning after the build
 rm -rf $tmp_dir

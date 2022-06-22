@@ -1,5 +1,5 @@
-name: Build Controller
-description: Build Controller container as an S2I image
+name: Build
+description: Build Probot controller container as an S2I image
 inputs:
   tags:
     type: string

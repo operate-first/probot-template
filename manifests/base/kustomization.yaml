@@ -5,14 +5,5 @@ resources:
 - controller
 - tasks
 commonLabels:
-  app.kubernetes.io/name: peribolos-as-service
-  app.kubernetes.io/managed-by: sig-services
-images:
-- name: peribolos
-  newName: quay.io/open-services-group/peribolos
-- name: toolbox
-  newName: quay.io/operate-first/opf-toolbox
-- name: python
-  newName: registry.access.redhat.com/ubi8/python-38
-- name: controller
-  newName: quay.io/open-services-group/peribolos-as-a-service
+  app.kubernetes.io/name: "{{name}}"
+  app.kubernetes.io/managed-by: "{{team}}"

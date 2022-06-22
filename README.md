@@ -1,49 +1,76 @@
 <p align="center">
-  <a href="https://github.com/apps/peribolos">
-    <img src="https://raw.githubusercontent.com/open-services-group/peribolos-as-a-service/main/static/robot.svg" width="160" alt="Probot's logo, a cartoon robot" />
+  <a href="https://github.com/open-services-group/probot-template">
+    <img src="https://raw.githubusercontent.com/open-services-group/probot-template/main/static/robot.svg" width="160" alt="Probot's logo, a cartoon robot" />
   </a>
 </p>
-<h3 align="center"><a href="https://github.com/apps/peribolos">Peribolos</a></h3>
-<p align="center">GitHub organization management as code</p>
+<h3 align="center"><a href="https://github.com/open-services-group/probot-template">Probot on Kubernetes - template repository</a></h3>
 <p align="center">
-  <a href="https://github.com/open-services-group/peribolos-as-a-service/releases">
-    <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/open-services-group/peribolos-as-a-service">
+  <a href="https://github.com/open-services-group/probot-template">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/open-services-group/probot-template">
   </a>
-  <a href="https://github.com/open-services-group/peribolos-as-a-service/actions?query=workflow%3APush">
-    <img alt="Build Status" src="https://img.shields.io/github/workflow/status/open-services-group/peribolos-as-a-service/Push">
-  </a>
-  <a href="https://github.com/open-services-group/peribolos-as-a-service">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/open-services-group/peribolos-as-a-service">
-  </a>
-  <a href="https://github.com/open-services-group/peribolos-as-a-service/blob/main/LICENSE">
+  <a href="https://github.com/open-services-group/probot-template/blob/main/LICENSE">
     <img alt="License" src="https://img.shields.io/badge/license-MIT-blue.svg">
   </a>
-  <a href="https://github.com/open-services-group/peribolos-as-a-service/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
-    <img alt="Reported bugs" src="https://img.shields.io/github/issues-search/open-services-group/peribolos-as-a-service?color=red&label=reported%20bugs&query=is%3Aopen%20label%3Akind%2Fbug">
+  <a href="https://github.com/open-services-group/probot-template/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
+    <img alt="Reported bugs" src="https://img.shields.io/github/issues-search/open-services-group/probot-template?color=red&label=reported%20bugs&query=is%3Aopen%20label%3Akind%2Fbug">
   </a>
-  <a href="https://github.com/open-services-group/peribolos-as-a-service/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
-    <img alt="Feature requests" src="https://img.shields.io/github/issues-search/open-services-group/peribolos-as-a-service?label=feature%20requests&query=is%3Aopen%20label%3Akind%2Ffeature">
+  <a href="https://github.com/open-services-group/probot-template/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
+    <img alt="Feature requests" src="https://img.shields.io/github/issues-search/open-services-group/probot-template?label=feature%20requests&query=is%3Aopen%20label%3Akind%2Ffeature">
   </a>
 </p>
 
 ---
+## How to use
 
-[peribolos]: https://github.com/kubernetes/test-infra/tree/master/prow/cmd/peribolos
-[probot]: https://probot.github.io/
+1. Create a new repository from this template
+2. Template all references
 
-If you ever wanted to manage your GitHub organization as code where everybody can simply open a PR and ask to create a team or make a repository, wait no more! This provided [Peribolos][peribolos] instance can help you in .
+    ```sh
+    cat <<EOM > /tmp/data.yaml
+    name: application-name
+    description: Some text
+    prod-namespace: namespaceA
+    stage-namespace: namespaceB
+    image: quay.io/org/repo
+    team: team-name
+    org-repo: org/repo
+    EOM
 
-We are neither the original creators or maintainers of the Peribolos code base. [Peribolos tool belongs to Kubernetes project][peribolos] and they deserve all the credit.
+    mustache /tmp/data.yaml manifests/base/controller/kustomization.yaml > manifests/base/controller/kustomization.yaml
+    mustache /tmp/data.yaml manifests/base/tasks/kustomization.yaml > manifests/base/tasks/kustomization.yaml
+    mustache /tmp/data.yaml manifests/base/kustomization.yaml > manifests/base/kustomization.yaml
+    mustache /tmp/data.yaml manifests/overlays/stage/kustomization.yaml > manifests/overlays/stage/kustomization.yaml
+    mustache /tmp/data.yaml manifests/overlays/prod/kustomization.yaml > manifests/overlays/prod/kustomization.yaml
+    mustache /tmp/data.yaml src/app.ts > src/app.ts
+    mustache /tmp/data.yaml package.json > package.json
+    mustache /tmp/data.yaml package-lock.json > package-lock.json
+    mv README.md README.old.md
+    mustache /tmp/data.yaml README.template.md > README.md
+    ```
 
-## How it works
+3. Follow a guide at Probot on [how to create and configure a GitHubApp](https://probot.github.io/docs/development/#manually-configuring-a-github-app)
 
-Simply install this application. It will ensure a `.github` special repository exists in your repository. In addition to that, Peribolos will create a pull request to this repository for you with all your github organization settings exported to `peribolos.yaml` manifest.
+4. Create credentials secrets for deployment based on your GitHub app data
 
-Later, on any change to this manifest pushed to the default branch, Peribolos will apply those changes to your organization.
+    ```sh
+    # Copy secret from base
+    cp manifests/base/controller/secret.yaml manifests/overlays/stage/secret.enc.yaml
+    cp manifests/base/controller/secret.yaml manifests/overlays/prod/secret.enc.yaml
 
-## Security implications
+    # edit manifests/overlays/*/secret.enc.yaml filling in all data
 
-By installing this application you're granting a lot of permissions to our service - essentially granting Peribolos organization admin privileges. This is a great deal to us and we don't take security lightly. If you have any questions please review our [SUPPORT.md](SUPPORT.md) and [SECURITY.md](SECURITY.md) guides.
+    # Encrypt them via sops
+    sops -e -i --pgp="0508677DD04952D06A943D5B4DC4116D360E3276" manifests/overlays/stage/secret.enc.yaml
+    sops -e -i --pgp="0508677DD04952D06A943D5B4DC4116D360E3276" manifests/overlays/prod/secret.enc.yaml
+    ```
+
+5. Hack on `src/app.ts`.
+
+## Resources
+
+- [Probot documentation](https://probot.github.io/docs/)
+- [Open Services Group extensions](https://github.com/open-services-group/probot-extensions)
+- Example: [Peribolos as a service](https://github.com/open-services-group/peribolos-as-a-service)
 
 ## Contributions
 
@@ -54,21 +81,3 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md) on how to contribute.
 ## Credit
 
 See [`ACKNOWLEDGMENTS.md`](ACKNOWLEDGMENTS.md).
-
-<p align="center">
-  <a href="https://argocd.operate-first.cloud/applications/peribolos-as-a-service-smaug">
-    <img alt="ArgoCD status" src="https://argocd.operate-first.cloud/api/badge?name=peribolos-as-a-service-smaug&revision=true">
-  </a><br />
-  <a href="https://console-openshift-console.apps.smaug.na.operate-first.cloud/k8s/cluster/projects/peribolos-as-a-service">
-    <img alt="OpenShift namespace" src="https://img.shields.io/badge/OpenShift-peribolos--as--a--service-white?logo=redhatopenshift&logoColor=white&labelColor=ee0000">
-  </a>
-  <a href="https://peribolos.operate-first.cloud">
-    <img alt="Route status" src="https://img.shields.io/website?label=Availability&url=https%3A%2F%2Fperibolos.operate-first.cloud%2Fhealthz">
-  </a><br />
-  <a href="https://quay.io/repository/open-services-group/peribolos-as-a-service?tab=tags">
-    <img alt="Controller image" src="https://img.shields.io/badge/Quay-open--services--group%2Fperibolos--as--a--service-blue">
-  </a><br />
-  <a href="https://quay.io/repository/open-services-group/peribolos?tab=tags">
-    <img alt="Peribolos image" src="https://img.shields.io/badge/Quay-open--services--group%2Fperibolos-blue">
-  </a>
-</p>

@@ -1,8 +1,8 @@
 {
-  "name": "peribolos-as-a-service",
-  "version": "1.0.1",
+  "name": "{{name}}",
+  "version": "1.0.0",
   "private": true,
-  "homepage": "https://github.com/open-services-group/peribolos-as-a-service",
+  "homepage": "https://github.com/{{org-repo}}",
   "scripts": {
     "build": "tsc",
     "start": "node lib/index.js",
@@ -14,6 +14,7 @@
   "dependencies": {
     "@open-services-group/probot-kubernetes": "1.0.1",
     "@open-services-group/probot-metrics": "1.0.1",
+    "@open-services-group/probot-issue-form": "1.0.0",
     "probot": "12.2.4"
   },
   "devDependencies": {

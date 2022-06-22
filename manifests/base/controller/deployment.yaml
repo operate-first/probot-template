@@ -13,7 +13,7 @@ spec:
       labels:
         app.kubernetes.io/component: controller
     spec:
-      serviceAccountName: peribolos-controller
+      serviceAccountName: controller
       containers:
       - name: controller
         image: controller
