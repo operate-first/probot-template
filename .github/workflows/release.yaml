@@ -1,3 +1,4 @@
+# Change mustache escape sequence {{=<% %>=}}
 name: Release
 
 on:
@@ -170,15 +171,15 @@ jobs:
         id: build
         with:
           tags: ${{ github.sha }} ${{ needs.release-to-git.outputs.tag }}
-          image: "{{image}}"
+          image: "<% image %>"
 
       - name: Push To Quay
         uses: redhat-actions/push-to-registry@v2
         id: push
         with:
-          image: "{{image}}"
+          image: "<% image %>"
           tags: ${{ github.sha }} ${{ needs.release-to-git.outputs.tag }}
-          registry: quay.io/{{quay_org}}
+          registry: quay.io/<% quay_org %>
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
 
