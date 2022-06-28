@@ -4,6 +4,9 @@ inputs:
   tags:
     type: string
     default: ${{ github.sha }}
+  image:
+    type: string
+    default: controller
 runs:
   using: "composite"
   steps:
@@ -18,5 +21,5 @@ runs:
       with:
         path_context: "."
         builder_image: "${{ steps.s2ibase.outputs.content }}"
-        image: peribolos-as-a-service
+        image: "${{ inputs.image }}"
         tags: "${{ inputs.tags }}"
