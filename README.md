@@ -132,7 +132,7 @@
 ## Resources
 
 - [Probot documentation](https://probot.github.io/docs/)
-- [Open Services Group extensions](https://github.com/operate-first/probot-extensions)
+- [Probot extensions by Operate First](https://github.com/operate-first/probot-extensions)
 - Example: [Peribolos as a service](https://github.com/operate-first/peribolos-as-a-service)
 
 ## Contributions
