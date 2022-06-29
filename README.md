@@ -1,25 +1,26 @@
 <p align="center">
-  <a href="https://github.com/open-services-group/probot-template">
-    <img src="https://raw.githubusercontent.com/open-services-group/probot-template/main/static/robot.svg" width="160" alt="Probot's logo, a cartoon robot" />
+  <a href="https://github.com/operate-first/probot-template">
+    <img src="https://raw.githubusercontent.com/operate-first/probot-template/main/static/robot.svg" width="160" alt="Probot's logo, a cartoon robot" />
   </a>
 </p>
-<h3 align="center"><a href="https://github.com/open-services-group/probot-template">Probot on Kubernetes - template repository</a></h3>
+<h3 align="center"><a href="https://github.com/operate-first/probot-template">Probot on Kubernetes - template repository</a></h3>
 <p align="center">
-  <a href="https://github.com/open-services-group/probot-template">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/open-services-group/probot-template">
+  <a href="https://github.com/operate-first/probot-template">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/operate-first/probot-template">
   </a>
-  <a href="https://github.com/open-services-group/probot-template/blob/main/LICENSE">
+  <a href="https://github.com/operate-first/probot-template/blob/main/LICENSE">
     <img alt="License" src="https://img.shields.io/badge/license-MIT-blue.svg">
   </a>
-  <a href="https://github.com/open-services-group/probot-template/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
-    <img alt="Reported bugs" src="https://img.shields.io/github/issues-search/open-services-group/probot-template?color=red&label=reported%20bugs&query=is%3Aopen%20label%3Akind%2Fbug">
+  <a href="https://github.com/operate-first/probot-template/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
+    <img alt="Reported bugs" src="https://img.shields.io/github/issues-search/operate-first/probot-template?color=red&label=reported%20bugs&query=is%3Aopen%20label%3Akind%2Fbug">
   </a>
-  <a href="https://github.com/open-services-group/probot-template/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
-    <img alt="Feature requests" src="https://img.shields.io/github/issues-search/open-services-group/probot-template?label=feature%20requests&query=is%3Aopen%20label%3Akind%2Ffeature">
+  <a href="https://github.com/operate-first/probot-template/issues?q=is%3Aissue+is%3Aopen+label%3Akind%2Fbug">
+    <img alt="Feature requests" src="https://img.shields.io/github/issues-search/operate-first/probot-template?label=feature%20requests&query=is%3Aopen%20label%3Akind%2Ffeature">
   </a>
 </p>
 
 ---
+
 ## How to use
 
 1. Create a new repository from this template
@@ -45,6 +46,7 @@
     org: github_org
     team: team-name
     repo: repo
+    email: some-contact@domain.com
     EOM
 
     ./scripts/template.sh /tmp/data.yaml
@@ -65,7 +67,8 @@
     sops -e -i --pgp="0508677DD04952D06A943D5B4DC4116D360E3276" manifests/overlays/prod/secret.enc.yaml
     ```
 
-6. Hack on `src/app.ts`.
+6. Read [CONTRIBUTING.md](./CONTRIBUTING.md) and happily hack on `src/app.ts`.
+7. We recommend installing [DCO](https://probot.github.io/apps/dco/), [Renovate](https://www.mend.io/free-developer-tools/renovate/), [Semantic PRs](https://github.com/apps/semantic-prs) GitHub apps.
 
 ## Template overview
 
@@ -129,8 +132,8 @@
 ## Resources
 
 - [Probot documentation](https://probot.github.io/docs/)
-- [Open Services Group extensions](https://github.com/open-services-group/probot-extensions)
-- Example: [Peribolos as a service](https://github.com/open-services-group/peribolos-as-a-service)
+- [Open Services Group extensions](https://github.com/operate-first/probot-extensions)
+- Example: [Peribolos as a service](https://github.com/operate-first/peribolos-as-a-service)
 
 ## Contributions
 
