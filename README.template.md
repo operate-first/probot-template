@@ -50,7 +50,7 @@ See [`ACKNOWLEDGMENTS.md`](ACKNOWLEDGMENTS.md).
   <a href="https://peribolos.operate-first.cloud">
     <img alt="Route status" src="https://img.shields.io/website?label=Availability&url=https%3A%2F%2F{{route}}%2Fhealthz">
   </a><br />
-  <a href="https://quay.io/repository/{{org-repo}}?tab=tags">
-    <img alt="Controller image" src="https://img.shields.io/badge/Quay-open--services--group%2F{{org-repo}}-blue">
+  <a href="https://quay.io/repository/{{quay_org}}/{{image}}?tab=tags">
+    <img alt="Controller image" src="https://img.shields.io/badge/Quay-{{org}}%2F{{repo}}-blue">
   </a>
 </p>

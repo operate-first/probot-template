@@ -186,7 +186,7 @@ jobs:
       - name: Set expiration
         uses: ./.github/actions/set-expiration
         with:
-          repository: open-services-group/peribolos-as-a-service
+          repository: <% quay_org %>/<% image %>
           tag: ${{ github.sha }}
           expiration: +1 week
           token: ${{ secrets.QUAY_OAUTH_TOKEN }}

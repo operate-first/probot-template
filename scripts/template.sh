@@ -28,6 +28,18 @@ mv README.md README.old.md
 mustache $1 README.template.md > tmpfile
 mv tmpfile README.md
 
+mustache $1 CONTRIBUTING.md > tmpfile
+mv tmpfile CONTRIBUTING.md
+
+mustache $1 CODE_OF_CONDUCT.md > tmpfile
+mv tmpfile CODE_OF_CONDUCT.md
+
+mustache $1 SUPPORT.md > tmpfile
+mv tmpfile SUPPORT.md
+
+mustache $1 SECURITY.md > tmpfile
+mv tmpfile SECURITY.md
+
 mustache $1 .github/workflows/pr.yaml > tmpfile
 mv tmpfile .github/workflows/pr.yaml
 
